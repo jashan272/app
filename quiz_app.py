@@ -1,4 +1,18 @@
 import streamlit as st
+# Firm details
+QUIZ_TITLE = "WOFA 2025 ESG Quiz"
+FIRM_NAME = "K Venkatachalam Aiyer & Co."
+LOGO_PATH = "logo.png"  # Ensure the logo is in the same folder as this script
+
+# Display title, firm name, and logo
+col1, col2 = st.columns([1, 4])  # Create two columns for alignment
+
+with col1:
+    st.image(LOGO_PATH, width=100)  # Adjust width as needed
+
+with col2:
+    st.title(QUIZ_TITLE)
+    st.write(f"**{FIRM_NAME}**")  # Firm name in bold
 
 # Dictionary containing 10 different quizzes
 quizzes = {
