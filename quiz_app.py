@@ -1,16 +1,17 @@
 import streamlit as st
-# Firm details
-FIRM_NAME = "K Venkatachalam Aiyer & Co."
-LOGO_PATH = "logo.png"  # Ensure the logo is in the same folder as this script
+# Add banner image
+st.image("banner.jpg", use_column_width=True)  # Replace with your banner image file
 
-# Display firm name and logo
-col1, col2 = st.columns([1, 4])  # Create two columns for alignment
+# Create a two-column layout for logo and firm name
+col1, col2 = st.columns([1, 4])  # Adjust column width ratio if needed
 
+# Add logo in first column
 with col1:
-    st.image(LOGO_PATH, width=100)  # Adjust width as needed
+    st.image("logo.png", width=100)  # Replace with your logo file
 
+# Add firm name in second column
 with col2:
-    st.write(f"### {FIRM_NAME}")  # Firm name in slightly larger bold text
+    st.markdown("<h1 style='margin-top:10px;'>KV Aiyer & Co. </h1>", unsafe_allow_html=True)
 
 # Dictionary containing 10 different quizzes
 quizzes = {
@@ -139,7 +140,20 @@ quizzes = {
     {"question": "Are financial risks related to climate change disclosed in reports?", "options": ["Yes", "No"], "answer": "Yes"},
     {"question": "Does the company publish stakeholder feedback and grievance resolution data?", "options": ["Yes", "No"], "answer": "Yes"},
 ],
-    "ESG Reporting Assessment": [
+    
+   "AI Knowledge Quiz": [
+    {"question": "What does AI stand for?", "options": ["A) Automated Intelligence", "B) Artificial Intelligence", "C) Algorithmic Intelligence", "D) Automated Integration"], "answer": "B) Artificial Intelligence"},
+    {"question": "Which of the following is an example of supervised learning?", "options": ["A) Clustering of data points into groups", "B) Predicting house prices based on historical data with known labels", "C) Identifying anomalies in network traffic", "D) Machine-generated artwork from scratch"], "answer": "B) Predicting house prices based on historical data with known labels"},
+    {"question": "Which of the following is NOT an example of natural language processing (NLP)?", "options": ["A) Text classification", "B) Speech recognition", "C) Object detection in images", "D) Machine translation"], "answer": "C) Object detection in images"},
+    {"question": "Which of these is the primary function of a neural network in AI?", "options": ["A) To optimize resources in an organization", "B) To recognize patterns and learn from data", "C) To create data visualizations", "D) To write software code"], "answer": "B) To recognize patterns and learn from data"},
+    {"question": "What is reinforcement learning primarily used for?", "options": ["A) Learning from data labeled by humans", "B) Improving decision-making through trial and error", "C) Classifying text into categories", "D) Identifying patterns in time series data"], "answer": "B) Improving decision-making through trial and error"},
+    {"question": "In which field is convolutional neural networks (CNNs) commonly applied?", "options": ["A) Natural Language Processing (NLP)", "B) Image and video recognition", "C) Time-series forecasting", "D) Reinforcement learning"], "answer": "B) Image and video recognition"},
+    {"question": "What is the Turing Test designed to evaluate?", "options": ["A) Whether a machine can perform calculations faster than a human", "B) Whether a machine can pass as human in conversation", "C) Whether an AI can write original poetry", "D) Whether an AI can predict the stock market"], "answer": "B) Whether a machine can pass as human in conversation"},
+    {"question": "What does GPT stand for in the context of AI?", "options": ["A) General Programming Tool", "B) Generative Pretrained Transformer", "C) Graph Processing Technology", "D) Global Prediction Tool"], "answer": "B) Generative Pretrained Transformer"},
+    {"question": "Which AI algorithm is commonly used in chatbots and virtual assistants?", "options": ["A) Decision trees", "B) Support vector machines (SVM)", "C) Recurrent neural networks (RNN)", "D) Genetic algorithms"], "answer": "C) Recurrent neural networks (RNN)"},
+    {"question": "Deep learning is a subset of which type of machine learning?", "options": ["A) Reinforcement Learning", "B) Supervised Learning", "C) Unsupervised Learning", "D) Both supervised and unsupervised learning"], "answer": "D) Both supervised and unsupervised learning"},
+],
+"Others": [
     {"question": "Does the company have policies to reduce greenhouse gas (GHG) emissions?", "options": ["Yes", "No"], "answer": "Yes"},
     {"question": "Does the company regularly monitor and report its energy consumption?", "options": ["Yes", "No"], "answer": "Yes"},
     {"question": "Has the company implemented initiatives to reduce water usage?", "options": ["Yes", "No"], "answer": "Yes"},
@@ -161,18 +175,6 @@ quizzes = {
     {"question": "Does the company conduct audits to ensure compliance with governance policies and regulations?", "options": ["Yes", "No"], "answer": "Yes"},
     {"question": "Are whistleblower mechanisms in place to report unethical practices?", "options": ["Yes", "No"], "answer": "Yes"},
 ],
-   "AI Knowledge Quiz": [
-    {"question": "What does AI stand for?", "options": ["A) Automated Intelligence", "B) Artificial Intelligence", "C) Algorithmic Intelligence", "D) Automated Integration"], "answer": "B) Artificial Intelligence"},
-    {"question": "Which of the following is an example of supervised learning?", "options": ["A) Clustering of data points into groups", "B) Predicting house prices based on historical data with known labels", "C) Identifying anomalies in network traffic", "D) Machine-generated artwork from scratch"], "answer": "B) Predicting house prices based on historical data with known labels"},
-    {"question": "Which of the following is NOT an example of natural language processing (NLP)?", "options": ["A) Text classification", "B) Speech recognition", "C) Object detection in images", "D) Machine translation"], "answer": "C) Object detection in images"},
-    {"question": "Which of these is the primary function of a neural network in AI?", "options": ["A) To optimize resources in an organization", "B) To recognize patterns and learn from data", "C) To create data visualizations", "D) To write software code"], "answer": "B) To recognize patterns and learn from data"},
-    {"question": "What is reinforcement learning primarily used for?", "options": ["A) Learning from data labeled by humans", "B) Improving decision-making through trial and error", "C) Classifying text into categories", "D) Identifying patterns in time series data"], "answer": "B) Improving decision-making through trial and error"},
-    {"question": "In which field is convolutional neural networks (CNNs) commonly applied?", "options": ["A) Natural Language Processing (NLP)", "B) Image and video recognition", "C) Time-series forecasting", "D) Reinforcement learning"], "answer": "B) Image and video recognition"},
-    {"question": "What is the Turing Test designed to evaluate?", "options": ["A) Whether a machine can perform calculations faster than a human", "B) Whether a machine can pass as human in conversation", "C) Whether an AI can write original poetry", "D) Whether an AI can predict the stock market"], "answer": "B) Whether a machine can pass as human in conversation"},
-    {"question": "What does GPT stand for in the context of AI?", "options": ["A) General Programming Tool", "B) Generative Pretrained Transformer", "C) Graph Processing Technology", "D) Global Prediction Tool"], "answer": "B) Generative Pretrained Transformer"},
-    {"question": "Which AI algorithm is commonly used in chatbots and virtual assistants?", "options": ["A) Decision trees", "B) Support vector machines (SVM)", "C) Recurrent neural networks (RNN)", "D) Genetic algorithms"], "answer": "C) Recurrent neural networks (RNN)"},
-    {"question": "Deep learning is a subset of which type of machine learning?", "options": ["A) Reinforcement Learning", "B) Supervised Learning", "C) Unsupervised Learning", "D) Both supervised and unsupervised learning"], "answer": "D) Both supervised and unsupervised learning"},
-],
 }
 
 
@@ -188,7 +190,7 @@ if "selected_quiz" not in st.session_state:
     st.session_state.selected_quiz = None
 
 # App title
-st.title("🎯WOFA 2025 ESG Quiz")
+st.title("WOFA 2025 ESG Quiz🎯")
 
 # Quiz Selection
 if st.session_state.selected_quiz is None:
