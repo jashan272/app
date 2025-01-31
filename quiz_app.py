@@ -1,4 +1,5 @@
 import streamlit as st
+
 # Add banner image
 st.image("banner.jpg", use_column_width=True)  # Replace with your banner image file
 
@@ -13,8 +14,18 @@ with col1:
 with col2:
     st.markdown("<h1 style='margin-top:10px;'>KV Aiyer & Co. </h1>", unsafe_allow_html=True)
 
-# Dictionary containing 10 different quizzes
-quizzes = {
+# Initialize session state variables if they don't exist
+if "selected_quiz" not in st.session_state:
+    st.session_state.selected_quiz = None
+if "current_question" not in st.session_state:
+    st.session_state.current_question = 0
+if "score" not in st.session_state:
+    st.session_state.score = 0
+if "quiz_complete" not in st.session_state:
+    st.session_state.quiz_complete = False
+
+# Define quizzes
+quiz_options = {
     "Manufacturing and Heavy Industries": [
         {"question": "Does the company use sustainably sourced raw materials?", "options": ["Yes", "No"], "answer": "Yes"},
         {"question": "Are there measures to monitor and reduce greenhouse gas emissions?", "options": ["Yes", "No"], "answer": "Yes"}, 
@@ -177,65 +188,62 @@ quizzes = {
 ],
 }
 
-
-
-# Initialize session state
-if "current_question" not in st.session_state:
-    st.session_state.current_question = 0
-if "score" not in st.session_state:
-    st.session_state.score = 0
-if "quiz_complete" not in st.session_state:
-    st.session_state.quiz_complete = False
-if "selected_quiz" not in st.session_state:
-    st.session_state.selected_quiz = None
-
-# App title
-st.title("WOFA 2025 ESG Quiz🎯")
-
-# Quiz Selection
+# Quiz selection
 if st.session_state.selected_quiz is None:
-    st.subheader("Choose a Quiz Category:")
-    quiz_choice = st.selectbox("Select a category:", list(quizzes.keys()))
+    st.title("WOFA 2025 ESG Quiz🎯")
+    quiz_name = st.selectbox("Choose a quiz:", list(quiz_options.keys()))
 
     if st.button("Start Quiz"):
-        st.session_state.selected_quiz = quiz_choice
+        st.session_state.selected_quiz = quiz_options[quiz_name]
         st.session_state.current_question = 0
         st.session_state.score = 0
         st.session_state.quiz_complete = False
         st.rerun()
 
+# Quiz logic (only run if a quiz is selected)
 else:
-    selected_quiz = quizzes[st.session_state.selected_quiz]
+    selected_quiz = st.session_state.selected_quiz
+    total_questions = len(selected_quiz)
 
-    if not st.session_state.quiz_complete:
-        # Display question
+    # Check if quiz is complete
+    if st.session_state.current_question < total_questions:
         question_data = selected_quiz[st.session_state.current_question]
+        st.write(f"**Q{st.session_state.current_question + 1}:** {question_data['question']}")
 
-        st.subheader(f"Question {st.session_state.current_question + 1}")
-        st.write(question_data["question"])
+        selected_answer = st.radio("Choose an answer:", question_data["options"], key=st.session_state.current_question)
 
-        # Answer options
-        selected_option = st.radio("Choose your answer:", question_data["options"])
-
-        # Submit button
-        if st.button("Submit Answer"):
-            if selected_option == question_data["answer"]:
+        if st.button("Submit"):
+            if selected_answer == question_data["answer"]:
                 st.session_state.score += 1
 
-            # Move to next question
-            if st.session_state.current_question < len(selected_quiz) - 1:
-                st.session_state.current_question += 1
-            else:
+            st.session_state.current_question += 1
+
+            # Mark quiz as complete when last question is answered
+            if st.session_state.current_question == total_questions:
                 st.session_state.quiz_complete = True
 
-            st.rerun()
+            st.rerun()  # Refresh page for next question
 
-    else:
-        # Display final score
+    # Show results only when quiz is complete
+    if st.session_state.quiz_complete:
         st.subheader("Quiz Completed! 🎉")
-        st.write(f"Your Score: **{st.session_state.score} / {len(selected_quiz)}**")
+        st.write(f"Your Score: **{st.session_state.score} / {total_questions}**")
 
-        # Retry button
+        # Calculate percentage score
+        score_percentage = (st.session_state.score / total_questions) * 100
+
+        # Display ESG recommendations based on percentage score
+        if score_percentage <= 25:
+            st.warning("**Recommendation:** Establish foundational ESG policies, implement basic environmental and social responsibility initiatives, and introduce mandatory compliance training for employees.")
+        elif 26 <= score_percentage <= 50:
+            st.info("**Recommendation:** Improve transparency in ESG reporting, enhance workplace safety and fair labor practices, and integrate sustainability measures into business operations.")
+        elif 51 <= score_percentage <= 75:
+            st.success("**Recommendation:** Conduct third-party ESG audits, strengthen governance structures for ethical compliance, and expand ESG-focused initiatives across supply chains and community programs.")
+        else:
+            st.balloons()
+            st.success("**Recommendation:** Lead industry-wide ESG innovation, set ambitious sustainability targets, enhance stakeholder engagement, and pioneer new models for ESG best practices.")
+
+        # Button to restart quiz
         if st.button("Try Another Quiz"):
             st.session_state.selected_quiz = None
             st.session_state.current_question = 0
