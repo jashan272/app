@@ -190,10 +190,10 @@ quiz_options = {
 
 # Quiz selection
 if st.session_state.selected_quiz is None:
-    st.title("WOFA 2025 ESG Quiz🎯")
-    quiz_name = st.selectbox("Choose a quiz:", list(quiz_options.keys()))
+    st.title("WOFA 2025 Sustainability Readiness Test🎯")
+    quiz_name = st.selectbox("Choose your Industry:", list(quiz_options.keys()))
 
-    if st.button("Start Quiz"):
+    if st.button("Start Test"):
         st.session_state.selected_quiz = quiz_options[quiz_name]
         st.session_state.current_question = 0
         st.session_state.score = 0
@@ -244,7 +244,7 @@ else:
             st.success("**Recommendation:** Lead industry-wide ESG innovation, set ambitious sustainability targets, enhance stakeholder engagement, and pioneer new models for ESG best practices.")
 
         # Button to restart quiz
-        if st.button("Try Another Quiz"):
+        if st.button("Try Another Test"):
             st.session_state.selected_quiz = None
             st.session_state.current_question = 0
             st.session_state.score = 0
